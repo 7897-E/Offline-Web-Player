@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noir Player | Your Playlist</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Noir Player | Black & Grey Music</title>
     <style>
         * {
             margin: 0;
@@ -79,6 +78,12 @@
         .album-art i {
             font-size: 5rem;
             color: #404040;
+        }
+        
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .track-info {
@@ -407,7 +412,7 @@
             
             <div class="playlist-section">
                 <div class="playlist-header">
-                    <h2>Your Playlist (58 Songs)</h2>
+                    <h2>Your Playlist</h2>
                     <input type="text" class="search-box" placeholder="Search songs...">
                 </div>
                 <ul class="track-list">
@@ -422,54 +427,62 @@
     </div>
 
     <script>
+        // Your MP3 files list
+        const mp3Files = [
+            "16.mp3",
+            "A Bar Song (Tipsy).mp3",
+            "Am I Dreaming (Metro Boomin & A$AP Rocky).mp3",
+            "Backbone.mp3",
+            "Baptize Me.mp3",
+            "Broken Bones.mp3",
+            "Call Out My Name.mp3",
+            "Calm Down.mp3",
+            "De la Vida Como Película, Tragedia, Comedia y Más.mp3",
+            "Devil In Your Eye.mp3",
+            "Energy.mp3",
+            "Everybody.mp3",
+            "Everyday (feat. Rod Stewart, Miguel & Mark Ronson).mp3",
+            "Expectations.mp3",
+            "Good News.mp3",
+            "Hand Me Downs.mp3"
+        ];
+
+        // Function to extract title and artist from filename
+        function getTrackInfo(filename) {
+            // Remove .mp3 extension
+            let name = filename.replace('.mp3', '');
+            
+            // Try to extract artist if present in parentheses
+            let title = name;
+            let artist = "Unknown Artist";
+            
+            // Check for featuring artists or other indicators
+            if (name.includes('(feat.')) {
+                const featIndex = name.indexOf('(feat.');
+                title = name.substring(0, featIndex).trim();
+                artist = name.substring(featIndex).replace('(feat.', '').replace(')', '').trim();
+            } else if (name.includes('-')) {
+                const parts = name.split('-');
+                if (parts.length >= 2) {
+                    artist = parts[0].trim();
+                    title = parts[1].trim();
+                }
+            }
+            
+            return { title, artist };
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Your track list from the screenshots
-            const tracks = [
-                { title: "Calm Down", artist: "Rema", album: "Calm Down", duration: "3:39" },
-                { title: "UNA BALA", artist: "Milo j, Peso Pluma", album: "TfI", duration: "3:03" },
-                { title: "HOLD YOU DOWN", artist: "X Ambassadors", album: "ORION", duration: "3:17" },
-                { title: "Shut up My Moms Calling", artist: "Hotel Ugly", album: "Shut up My Moms Calling", duration: "2:44" },
-                { title: "I Was Never There", artist: "The Weeknd, Gesaffelstein", album: "My Dear Melancholy", duration: "4:01" },
-                { title: "De la Vida Como Película, Tragedia, Comedia y Más", artist: "Canserbero, Afromak", album: "De la Vida Como Película", duration: "8:01" },
-                { title: "16", artist: "Baby Keem", album: "The Melodic Blue", duration: "2:36" },
-                { title: "Am I Dreaming", artist: "Metro Boomin, A$AP Rocky, Roisee", album: "METRO BOOMIN PRESENTS SPIDER-MAN: ACROSS THE SPIDER-VERSE", duration: "4:16" },
-                { title: "Pain", artist: "A$AP Rocky, OverDoz.", album: "LONG.LIVE.A$AP (Deluxe Edition)", duration: "3:53" },
-                { title: "No Time To Die", artist: "Billie Eilish", album: "No Time To Die", duration: "4:02" },
-                { title: "Turn on Me", artist: "The National", album: "For The Throne (Music Inspired by the HBO Series Game of Thrones)", duration: "4:15" },
-                { title: "Energy", artist: "BURNS, A$AP Rocky, Sabrina Claudio", album: "Energy", duration: "3:48" },
-                { title: "Backbone", artist: "KALEO", album: "Surface Sounds", duration: "3:52" },
-                { title: "Weekend", artist: "Mac Miller, Miguel", album: "GO:OD AM", duration: "3:28" },
-                { title: "I'm The Man", artist: "50 Cent, Sonny Digital", album: "I'm The Man", duration: "3:55" },
-                { title: "All The Stars", artist: "Kendrick Lamar, SZA", album: "Black Panther The Album", duration: "3:52" },
-                { title: "Devil In Your Eye", artist: "Mumford & Sons", album: "For The Throne (Music Inspired by the HBO Series Game of Thrones)", duration: "3:45" },
-                { title: "Baptize Me", artist: "X Ambassadors, Jacob Banks", album: "For The Throne (Music Inspired by the HBO Series Game of Thrones)", duration: "3:37" },
-                { title: "Nightshade", artist: "The Lumineers", album: "For The Throne (Music Inspired by the HBO Series Game of Thrones)", duration: "3:00" },
-                { title: "Kingdom of One", artist: "Maren Morris", album: "For The Throne (Music Inspired by the HBO Series Game of Thrones)", duration: "3:35" },
-                { title: "Prophecy", artist: "Domo Genesis, The Alchemist", album: "No Idols", duration: "2:19" },
-                { title: "Everyday", artist: "A$AP Rocky, Rod Stewart, Miguel", album: "AT.LONG.LAST.A$AP", duration: "4:20" },
-                { title: "Still", artist: "Saba, GLACK, Smino", album: "Few Good Things", duration: "3:45" },
-                { title: "HONEST", artist: "Baby Keem", album: "DIE FOR MY BITCH", duration: "2:52" },
-                { title: "Jet Fuel", artist: "Mac Miller", album: "Swimming", duration: "5:45" },
-                { title: "Lose Control", artist: "Teddy Swims", album: "I've Tried Everything But Therapy", duration: "3:30" },
-                { title: "Woods", artist: "Mac Miller", album: "Circles", duration: "4:46" },
-                { title: "Mafiana Será Otro Día", artist: "Canserbero, Afromak", album: "Can + Zoo Indigo", duration: "3:17" },
-                { title: "Hollow Crown", artist: "Ellie Goulding", album: "For The Throne (Music Inspired by the HBO Series Game of Thrones)", duration: "2:51" },
-                { title: "Pray For Me", artist: "The Weeknd, Kendrick Lamar", album: "The Highlights", duration: "3:31" },
-                { title: "Good News", artist: "Shaboczey", album: "Where I've Been, Isn't Where I'm Going", duration: "3:19" },
-                { title: "Stupid Love Story", artist: "Canserbero, Apache", album: "Apa y Can", duration: "4:46" },
-                { title: "Expectations", artist: "Lauren Jauregui", album: "Expectations", duration: "3:24" },
-                { title: "Highway", artist: "Shaboczey", album: "Where I've Been, Isn't Where I'm Going", duration: "2:42" },
-                { title: "The Door", artist: "Teddy Swims", album: "I've Tried Everything But Therapy", duration: "3:32" },
-                { title: "When I Lie (Remix)", artist: "Lil Peep, Ty Dolla $ign", album: "For The Throne (Music Inspired by the HBO Series Game of Thrones)", duration: "3:13" },
-                { title: "I Can't Go on Without You", artist: "KALEO", album: "A/B", duration: "6:17" },
-                { title: "Everybody", artist: "Mac Miller", album: "Circles", duration: "4:16" },
-                { title: "Ladders", artist: "Mac Miller", album: "Swimming", duration: "4:47" },
-                { title: "Star Shopping", artist: "Lil Peep", album: "Star Shopping", duration: "2:22" },
-                { title: "I Feel Like I'm Drowning", artist: "Two Feet", album: "A 20 Something Fuck", duration: "3:05" },
-                { title: "WILDFLOWER", artist: "Billie Eilish", album: "HIT ME HARD AND SOFT", duration: "4:21" },
-                { title: "Broken Bones", artist: "KALEO", album: "A/B", duration: "4:05" },
-                { title: "Take Me to Church", artist: "Hozier", album: "Hozier (Expanded Edition)", duration: "4:01" }
-            ];
+            // Create tracks array from MP3 files
+            const tracks = mp3Files.map((file, index) => {
+                const { title, artist } = getTrackInfo(file);
+                return {
+                    title,
+                    artist,
+                    file: file,
+                    duration: "3:30" // Placeholder duration
+                };
+            });
             
             // Audio element
             const audio = new Audio();
@@ -571,29 +584,25 @@
             
             // Load track
             function loadTrack(index) {
-                // For demo purposes, we're not actually loading audio files
-                // In a real implementation, you would set: audio.src = tracks[index].file;
+                // Set the audio source to the MP3 file
+                audio.src = tracks[index].file;
                 currentTrackEl.textContent = tracks[index].title;
                 currentArtistEl.textContent = tracks[index].artist;
-                totalTimeEl.textContent = tracks[index].duration;
                 highlightActiveTrack();
             }
             
             // Play track
             function playTrack() {
-                // Simulate playback for demo
+                audio.play();
                 isPlaying = true;
                 playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                
-                // In a real implementation, you would use: audio.play();
             }
             
             // Pause track
             function pauseTrack() {
+                audio.pause();
                 isPlaying = false;
                 playBtn.innerHTML = '<i class="fas fa-play"></i>';
-                
-                // In a real implementation, you would use: audio.pause();
             }
             
             // Toggle play/pause
@@ -627,39 +636,35 @@
             
             // Update progress bar
             function updateProgress() {
-                // For demo purposes, we're simulating progress
-                // In a real implementation, you would use:
-                // const { currentTime, duration } = audio;
-                // const progressPercent = (currentTime / duration) * 100;
-                
-                const progressPercent = 30; // Static for demo
+                const { currentTime, duration } = audio;
+                const progressPercent = (currentTime / duration) * 100;
                 progress.style.width = `${progressPercent}%`;
                 
                 // Update time displays
-                currentTimeEl.textContent = "1:42"; // Static for demo
+                currentTimeEl.textContent = formatTime(currentTime);
+                totalTimeEl.textContent = formatTime(duration);
             }
             
             // Set progress on click
             function setProgress(e) {
-                // For demo purposes
-                // In a real implementation, you would use:
-                // const width = this.clientWidth;
-                // const clickX = e.offsetX;
-                // const duration = audio.duration;
-                // audio.currentTime = (clickX / width) * duration;
-                
                 const width = this.clientWidth;
                 const clickX = e.offsetX;
-                const progressPercent = (clickX / width) * 100;
-                progress.style.width = `${progressPercent}%`;
-                currentTimeEl.textContent = "2:15"; // Static for demo
+                const duration = audio.duration;
+                audio.currentTime = (clickX / width) * duration;
             }
             
             // Set volume
             function setVolume() {
-                // For demo purposes
-                // In a real implementation, you would use:
-                // audio.volume = volumeSlider.value;
+                audio.volume = volumeSlider.value;
+            }
+            
+            // Format time
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return '0:00';
+                
+                const minutes = Math.floor(seconds / 60);
+                seconds = Math.floor(seconds % 60);
+                return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
             }
             
             // Initialize the player
