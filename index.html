@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Player with Image Controls</title>
+    <title>Music Player with Styled Controls</title>
     <style>
         * {
             margin: 0;
@@ -21,244 +21,372 @@
             padding: 20px;
         }
         
-        .media-player {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+        .music-player {
+            background-color: rgba(255, 255, 255, 0.95);
+            width: 350px;
             border-radius: 20px;
-            padding: 30px;
-            width: 380px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .album-art {
-            width: 100%;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            margin-bottom: 25px;
-        }
-        
-        .album-art img {
-            width: 100%;
-            display: block;
-        }
-        
-        .song-info {
+            padding: 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             text-align: center;
-            margin-bottom: 25px;
+        }
+        
+        .album-cover {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #3498db, #e74c3c);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             color: white;
+            font-size: 60px;
         }
         
-        .song-info h2 {
-            font-size: 22px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .song-info p {
-            font-size: 16px;
-            opacity: 0.8;
-        }
-        
-        .progress-container {
+        .music-info {
             margin-bottom: 25px;
+        }
+        
+        .music-info h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .music-info p {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .progress-area {
+            height: 6px;
+            width: 100%;
+            background: #f0f0f0;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-bottom: 10px;
         }
         
         .progress-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 8px;
-            cursor: pointer;
+            height: inherit;
+            width: 0%;
+            position: relative;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
         }
         
-        .progress {
-            height: 100%;
-            width: 30%;
-            background: #ff6b6b;
-            border-radius: 10px;
-        }
-        
-        .time {
+        .timer {
             display: flex;
             justify-content: space-between;
-            color: rgba(255, 255, 255, 0.8);
+            color: #666;
             font-size: 14px;
+            margin-bottom: 15px;
         }
         
         .controls {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 25px;
+            align-items: center;
+            gap: 25px;
+            margin-top: 20px;
         }
         
         .control-btn {
-            background: none;
             border: none;
+            background: none;
             cursor: pointer;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.2s ease;
+            color: #666;
+            font-size: 18px;
+            transition: all 0.3s;
         }
         
         .control-btn:hover {
+            color: #3498db;
             transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.1);
         }
         
-        .control-btn:active {
-            transform: scale(0.95);
+        .play-pause {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            box-shadow: 0 5px 10px rgba(52, 152, 219, 0.5);
         }
         
-        .control-btn img {
-            width: 24px;
-            height: 24px;
+        .play-pause:hover {
+            transform: scale(1.05);
+            color: white;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.7);
         }
         
-        .play-btn {
-            background: rgba(255, 255, 255, 0.15);
-            width: 60px;
-            height: 60px;
-        }
-        
-        .play-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-        
-        .play-btn img {
-            width: 28px;
-            height: 28px;
-        }
-        
-        .volume-container {
+        .volume-control {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
+            margin-top: 15px;
         }
         
         .volume-icon {
-            width: 24px;
-            height: 24px;
+            color: #666;
+            font-size: 18px;
         }
         
-        .volume-slider {
+        input[type="range"] {
             flex: 1;
-            -webkit-appearance: none;
             height: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
+            background: #f0f0f0;
+            border-radius: 50px;
             outline: none;
         }
         
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: white;
+        .playlist {
+            margin-top: 25px;
+            text-align: left;
+        }
+        
+        .playlist h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .playlist-item:hover {
+            background: #f0f0f0;
+        }
+        
+        .playlist-item.active {
+            background: #e3f2fd;
+            color: #3498db;
+        }
+        
+        .playlist-item-number {
+            width: 25px;
+            color: #666;
+        }
+        
+        .playlist-item-title {
+            flex: 1;
+        }
+        
+        .playlist-item-duration {
+            color: #999;
         }
     </style>
 </head>
 <body>
-    <div class="media-player">
-        <div class="album-art">
-            <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Album Cover">
+    <div class="music-player">
+        <div class="album-cover">
+            <i class="fas fa-music"></i>
         </div>
         
-        <div class="song-info">
-            <h2>Electric Dreams</h2>
-            <p>The Soundmakers</p>
+        <div class="music-info">
+            <h2>Lost in the City</h2>
+            <p>Starsound</p>
         </div>
         
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
-            <div class="time">
-                <span>1:20</span>
-                <span>4:35</span>
-            </div>
+        <div class="progress-area">
+            <div class="progress-bar"></div>
+        </div>
+        
+        <div class="timer">
+            <span class="current">0:00</span>
+            <span class="duration">3:45</span>
         </div>
         
         <div class="controls">
-            <button class="control-btn" id="prev">
-                <img src="https://cdn-icons-png.flaticon.com/512/726/726488.png" alt="Previous">
+            <button id="prev" class="control-btn">
+                <i class="fas fa-step-backward"></i>
             </button>
             
-            <button class="control-btn play-btn" id="play">
-                <img src="https://cdn-icons-png.flaticon.com/512/726/726476.png" alt="Play" id="play-icon">
+            <button id="play-pause" class="control-btn play-pause">
+                <i class="fas fa-play"></i>
             </button>
             
-            <button class="control-btn" id="next">
-                <img src="https://cdn-icons-png.flaticon.com/512/726/726490.png" alt="Next">
+            <button id="next" class="control-btn">
+                <i class="fas fa-step-forward"></i>
             </button>
         </div>
         
-        <div class="volume-container">
-            <img src="https://cdn-icons-png.flaticon.com/512/726/726462.png" alt="Volume" class="volume-icon">
-            <input type="range" class="volume-slider" min="0" max="100" value="80">
+        <div class="volume-control">
+            <i class="fas fa-volume-down volume-icon"></i>
+            <input type="range" min="0" max="100" value="80" class="volume-slider">
+        </div>
+        
+        <div class="playlist">
+            <h3>Playlist</h3>
+            <div class="playlist-item active">
+                <span class="playlist-item-number">1</span>
+                <span class="playlist-item-title">Lost in the City</span>
+                <span class="playlist-item-duration">3:45</span>
+            </div>
+            <div class="playlist-item">
+                <span class="playlist-item-number">2</span>
+                <span class="playlist-item-title">Night Drive</span>
+                <span class="playlist-item-duration">4:20</span>
+            </div>
+            <div class="playlist-item">
+                <span class="playlist-item-number">3</span>
+                <span class="playlist-item-title">Sunset Dreams</span>
+                <span class="playlist-item-duration">3:15</span>
+            </div>
         </div>
     </div>
 
     <script>
-        const playButton = document.getElementById('play');
-        const playIcon = document.getElementById('play-icon');
-        const progress = document.querySelector('.progress');
-        let isPlaying = false;
-        
-        playButton.addEventListener('click', function() {
-            isPlaying = !isPlaying;
+        document.addEventListener('DOMContentLoaded', function() {
+            const playPauseBtn = document.getElementById('play-pause');
+            const prevBtn = document.getElementById('prev');
+            const nextBtn = document.getElementById('next');
+            const progressBar = document.querySelector('.progress-bar');
+            const currentTimeEl = document.querySelector('.current');
+            const durationEl = document.querySelector('.duration');
+            const volumeSlider = document.querySelector('.volume-slider');
+            const playlistItems = document.querySelectorAll('.playlist-item');
             
-            if (isPlaying) {
-                playIcon.src = 'https://cdn-icons-png.flaticon.com/512/726/726483.png';
-                playIcon.alt = 'Pause';
-            } else {
-                playIcon.src = 'https://cdn-icons-png.flaticon.com/512/726/726476.png';
-                playIcon.alt = 'Play';
-            }
-        });
-        
-        // Simulate progress movement
-        setInterval(() => {
-            if (isPlaying) {
-                const progressBar = document.querySelector('.progress');
-                const width = parseInt(progressBar.style.width || '0%');
-                const newWidth = (width + 1) % 100;
-                progressBar.style.width = newWidth + '%';
+            let isPlaying = false;
+            let currentSong = 0;
+            
+            // Toggle play/pause
+            playPauseBtn.addEventListener('click', function() {
+                isPlaying = !isPlaying;
+                updatePlayButton();
+                
+                if (isPlaying) {
+                    simulatePlayback();
+                }
+            });
+            
+            // Previous button
+            prevBtn.addEventListener('click', function() {
+                currentSong--;
+                if (currentSong < 0) currentSong = playlistItems.length - 1;
+                updatePlaylist();
+                resetPlayback();
+                if (isPlaying) simulatePlayback();
+            });
+            
+            // Next button
+            nextBtn.addEventListener('click', function() {
+                currentSong++;
+                if (currentSong >= playlistItems.length) currentSong = 0;
+                updatePlaylist();
+                resetPlayback();
+                if (isPlaying) simulatePlayback();
+            });
+            
+            // Update volume
+            volumeSlider.addEventListener('input', function() {
+                // Volume change logic would go here
+            });
+            
+            // Click on progress bar
+            document.querySelector('.progress-area').addEventListener('click', function(e) {
+                if (!isPlaying) return;
+                
+                const progressWidth = this.clientWidth;
+                const clickOffsetX = e.offsetX;
+                const progress = (clickOffsetX / progressWidth) * 100;
+                
+                progressBar.style.width = `${progress}%`;
                 
                 // Update time display
-                const currentTime = document.querySelector('.time span:first-child');
-                const minutes = Math.floor(newWidth * 4.35 / 100);
-                const seconds = Math.floor((newWidth * 4.35 / 100 - minutes) * 60);
-                currentTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            }
-        }, 1000);
-        
-        // Volume slider functionality
-        const volumeSlider = document.querySelector('.volume-slider');
-        const volumeIcon = document.querySelector('.volume-icon');
-        
-        volumeSlider.addEventListener('input', function() {
-            const volume = this.value;
+                const totalDuration = 225; // 3:45 in seconds
+                const currentTime = (progress / 100) * totalDuration;
+                updateTimeDisplay(currentTime, totalDuration);
+            });
             
-            if (volume > 66) {
-                volumeIcon.src = 'https://cdn-icons-png.flaticon.com/512/726/726462.png';
-            } else if (volume > 33) {
-                volumeIcon.src = 'https://cdn-icons-png.flaticon.com/512/726/726465.png';
-            } else if (volume > 0) {
-                volumeIcon.src = 'https://cdn-icons-png.flaticon.com/512/726/726472.png';
-            } else {
-                volumeIcon.src = 'https://cdn-icons-png.flaticon.com/512/726/726469.png';
+            // Playlist item click
+            playlistItems.forEach((item, index) => {
+                item.addEventListener('click', function() {
+                    currentSong = index;
+                    updatePlaylist();
+                    resetPlayback();
+                    if (isPlaying) simulatePlayback();
+                });
+            });
+            
+            function updatePlayButton() {
+                const icon = playPauseBtn.querySelector('i');
+                if (isPlaying) {
+                    icon.classList.remove('fa-play');
+                    icon.classList.add('fa-pause');
+                } else {
+                    icon.classList.remove('fa-pause');
+                    icon.classList.add('fa-play');
+                }
+            }
+            
+            function updatePlaylist() {
+                playlistItems.forEach((item, index) => {
+                    if (index === currentSong) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+            
+            function resetPlayback() {
+                progressBar.style.width = '0%';
+                currentTimeEl.textContent = '0:00';
+                durationEl.textContent = '3:45';
+            }
+            
+            function simulatePlayback() {
+                // This is just a simulation for the example
+                let width = 0;
+                const interval = setInterval(() => {
+                    if (width >= 100 || !isPlaying) {
+                        clearInterval(interval);
+                        if (width >= 100) {
+                            // Song ended, play next
+                            nextBtn.click();
+                        }
+                        return;
+                    }
+                    
+                    width += 0.5;
+                    progressBar.style.width = `${width}%`;
+                    
+                    // Update time display
+                    const totalDuration = 225; // 3:45 in seconds
+                    const currentTime = (width / 100) * totalDuration;
+                    updateTimeDisplay(currentTime, totalDuration);
+                }, 100);
+            }
+            
+            function updateTimeDisplay(currentTime, totalDuration) {
+                const currentMinutes = Math.floor(currentTime / 60);
+                const currentSeconds = Math.floor(currentTime % 60);
+                currentTimeEl.textContent = `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds}`;
+                
+                const totalMinutes = Math.floor(totalDuration / 60);
+                const totalSeconds = Math.floor(totalDuration % 60);
+                durationEl.textContent = `${totalMinutes}:${totalSeconds < 10 ? '0' : ''}${totalSeconds}`;
             }
         });
     </script>
+    
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
