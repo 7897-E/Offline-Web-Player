@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player | Black & Grey Music</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Noir Player | Black & Grey Music</title>
     <style>
         * {
             margin: 0;
@@ -25,7 +24,7 @@
         
         .container {
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
             background: #121212;
             border-radius: 15px;
             overflow: hidden;
@@ -53,11 +52,13 @@
         
         .player-container {
             padding: 25px;
+            display: flex;
+            gap: 30px;
         }
         
         .now-playing {
+            flex: 1;
             text-align: center;
-            margin-bottom: 25px;
         }
         
         .album-art {
@@ -125,7 +126,7 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 15px;
             margin-bottom: 20px;
         }
         
@@ -133,7 +134,7 @@
             background: none;
             border: none;
             color: #e0e0e0;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             cursor: pointer;
             padding: 12px;
             border-radius: 50%;
@@ -142,8 +143,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
         }
         
         .btn:hover {
@@ -154,9 +155,9 @@
         .btn-play {
             background: #f5f5f5;
             color: #121212;
-            font-size: 2.2rem;
-            width: 65px;
-            height: 65px;
+            font-size: 1.8rem;
+            width: 60px;
+            height: 60px;
         }
         
         .btn-play:hover {
@@ -173,7 +174,7 @@
         }
         
         .volume-slider {
-            width: 120px;
+            width: 100px;
             -webkit-appearance: none;
             height: 4px;
             border-radius: 5px;
@@ -190,22 +191,49 @@
             cursor: pointer;
         }
         
-        .playlist {
+        .playlist-section {
+            flex: 1;
             background: #1a1a1a;
             padding: 20px;
-            border-top: 1px solid #2a2a2a;
+            border-radius: 10px;
+            max-height: 450px;
+            display: flex;
+            flex-direction: column;
         }
         
-        .playlist h2 {
+        .playlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .playlist-header h2 {
             color: #ffffff;
             font-size: 1.3rem;
         }
         
+        .search-box {
+            background: #121212;
+            border: 1px solid #2a2a2a;
+            border-radius: 20px;
+            padding: 8px 15px;
+            color: #e0e0e0;
+            width: 180px;
+            font-size: 0.9rem;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: #f5f5f5;
+        }
+        
         .track-list {
             list-style: none;
-            max-height: 300px;
             overflow-y: auto;
+            flex: 1;
             border-radius: 8px;
             background: #121212;
             padding: 10px;
@@ -257,7 +285,8 @@
         .track-number {
             font-size: 0.9rem;
             color: #a0a0a0;
-            width: 20px;
+            width: 25px;
+            text-align: right;
         }
         
         .track-details {
@@ -280,32 +309,22 @@
             font-size: 0.9rem;
         }
         
-        .search-container {
-            margin-bottom: 15px;
-            display: flex;
-            gap: 10px;
-        }
-        
-        .search-input {
-            flex: 1;
-            padding: 10px 15px;
-            border-radius: 25px;
-            border: none;
-            background: #2a2a2a;
-            color: #e0e0e0;
-            outline: none;
-        }
-        
-        .search-input::placeholder {
-            color: #888;
-        }
-        
         footer {
             text-align: center;
             padding: 15px;
             background: #000;
             color: #666;
             font-size: 0.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .player-container {
+                flex-direction: column;
+            }
+            
+            .playlist-section {
+                max-height: 300px;
+            }
         }
         
         @media (max-width: 600px) {
@@ -327,19 +346,29 @@
             }
             
             .controls {
-                gap: 15px;
+                gap: 10px;
             }
             
             .btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
             }
             
             .btn-play {
-                width: 60px;
-                height: 60px;
-                font-size: 1.8rem;
+                width: 55px;
+                height: 55px;
+                font-size: 1.5rem;
+            }
+            
+            .playlist-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .search-box {
+                width: 100%;
             }
         }
     </style>
@@ -347,8 +376,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>PLAYER</h1>
-            <p class="tagline">Music</p>
+            <h1>NOIR PLAYER</h1>
+            <p class="tagline">Your personal music collection</p>
         </header>
         
         <div class="player-container">
@@ -358,38 +387,38 @@
                 </div>
                 <p class="track-info">Select a song</p>
                 <p class="artist">Unknown Artist</p>
+                
+                <div class="time-display">
+                    <span id="current-time">0:00</span>
+                    <span id="total-time">0:00</span>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress"></div>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn btn-previous"><i class="fas fa-step-backward"></i></button>
+                    <button class="btn btn-play"><i class="fas fa-play"></i></button>
+                    <button class="btn btn-next"><i class="fas fa-step-forward"></i></button>
+                </div>
+                
+                <div class="volume-container">
+                    <i class="fas fa-volume-down"></i>
+                    <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
+                    <i class="fas fa-volume-up"></i>
+                </div>
             </div>
             
-            <div class="time-display">
-                <span id="current-time">0:00</span>
-                <span id="total-time">0:00</span>
+            <div class="playlist-section">
+                <div class="playlist-header">
+                    <h2>Your Playlist</h2>
+                    <input type="text" class="search-box" placeholder="Search songs...">
+                </div>
+                <ul class="track-list">
+                    <!-- Playlist items will be generated by JavaScript -->
+                </ul>
             </div>
-            
-            <div class="progress-container">
-                <div class="progress"></div>
-            </div>
-            
-            <div class="controls">
-                <button class="btn btn-previous"><i class="fas fa-step-backward"></i></button>
-                <button class="btn btn-play"><i class="fas fa-play"></i></button>
-                <button class="btn btn-next"><i class="fas fa-step-forward"></i></button>
-            </div>
-            
-            <div class="volume-container">
-                <i class="fas fa-volume-down"></i>
-                <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
-                <i class="fas fa-volume-up"></i>
-            </div>
-        </div>
-        
-        <div class="playlist">
-            <h2>Playlist (58 Tracks)</h2>
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Search tracks...">
-            </div>
-            <ul class="track-list">
-                <!-- Playlist items will be generated by JavaScript -->
-            </ul>
         </div>
         
         <footer>
@@ -398,18 +427,62 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Generate 58 tracks with placeholder data
-            const tracks = [];
-            for (let i = 1; i <= 58; i++) {
-                const trackNum = i < 10 ? `0${i}` : i;
-                tracks.push({
-                    title: `Track ${trackNum}`,
-                    artist: "Unknown Artist",
-                    file: `track-${trackNum}.mp3`,
-                    duration: `${Math.floor(Math.random() * 4) + 1}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')}`
-                });
+        // Your MP3 files list
+        const mp3Files = [
+            "16.mp3",
+            "A Bar Song (Tipsy).mp3",
+            "Am I Dreaming (Metro Boomin & A$AP Rocky).mp3",
+            "Backbone.mp3",
+            "Baptize Me.mp3",
+            "Broken Bones.mp3",
+            "Call Out My Name.mp3",
+            "Calm Down.mp3",
+            "De la Vida Como Película, Tragedia, Comedia y Más.mp3",
+            "Devil In Your Eye.mp3",
+            "Energy.mp3",
+            "Everybody.mp3",
+            "Everyday (feat. Rod Stewart, Miguel & Mark Ronson).mp3",
+            "Expectations.mp3",
+            "Good News.mp3",
+            "Hand Me Downs.mp3"
+        ];
+
+        // Function to extract title and artist from filename
+        function getTrackInfo(filename) {
+            // Remove .mp3 extension
+            let name = filename.replace('.mp3', '');
+            
+            // Try to extract artist if present in parentheses
+            let title = name;
+            let artist = "Unknown Artist";
+            
+            // Check for featuring artists or other indicators
+            if (name.includes('(feat.')) {
+                const featIndex = name.indexOf('(feat.');
+                title = name.substring(0, featIndex).trim();
+                artist = name.substring(featIndex).replace('(feat.', '').replace(')', '').trim();
+            } else if (name.includes('-')) {
+                const parts = name.split('-');
+                if (parts.length >= 2) {
+                    artist = parts[0].trim();
+                    title = parts[1].trim();
+                }
             }
+            
+            return { title, artist };
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create tracks array from MP3 files
+            const tracks = mp3Files.map((file, index) => {
+                const { title, artist } = getTrackInfo(file);
+                return {
+                    title,
+                    artist,
+                    file: file,
+                    duration: "3:30" // Placeholder duration
+                };
+            });
             
             // Audio element
             const audio = new Audio();
@@ -428,7 +501,7 @@
             const currentArtistEl = document.querySelector('.artist');
             const volumeSlider = document.querySelector('.volume-slider');
             const trackList = document.querySelector('.track-list');
-            const searchInput = document.querySelector('.search-input');
+            const searchBox = document.querySelector('.search-box');
             
             // Initialize player
             function initPlayer() {
@@ -446,24 +519,7 @@
                 audio.addEventListener('ended', nextTrack);
                 progressContainer.addEventListener('click', setProgress);
                 volumeSlider.addEventListener('input', setVolume);
-                searchInput.addEventListener('input', filterTracks);
-            }
-            
-            // Filter tracks based on search input
-            function filterTracks() {
-                const searchTerm = searchInput.value.toLowerCase();
-                const items = document.querySelectorAll('.track-item');
-                
-                items.forEach((item, index) => {
-                    const title = tracks[index].title.toLowerCase();
-                    const artist = tracks[index].artist.toLowerCase();
-                    
-                    if (title.includes(searchTerm) || artist.includes(searchTerm)) {
-                        item.style.display = 'flex';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
+                searchBox.addEventListener('input', filterTracks);
             }
             
             // Render playlist
@@ -497,6 +553,23 @@
                 });
             }
             
+            // Filter tracks based on search input
+            function filterTracks() {
+                const searchText = searchBox.value.toLowerCase();
+                const items = document.querySelectorAll('.track-item');
+                
+                items.forEach((item, index) => {
+                    const title = tracks[index].title.toLowerCase();
+                    const artist = tracks[index].artist.toLowerCase();
+                    
+                    if (title.includes(searchText) || artist.includes(searchText)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+            
             // Highlight active track
             function highlightActiveTrack() {
                 const items = document.querySelectorAll('.track-item');
@@ -511,16 +584,11 @@
             
             // Load track
             function loadTrack(index) {
+                // Set the audio source to the MP3 file
                 audio.src = tracks[index].file;
                 currentTrackEl.textContent = tracks[index].title;
                 currentArtistEl.textContent = tracks[index].artist;
                 highlightActiveTrack();
-                
-                // Scroll to active track in playlist
-                const activeItem = document.querySelector('.track-item.active');
-                if (activeItem) {
-                    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
             }
             
             // Play track
